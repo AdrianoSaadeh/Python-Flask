@@ -24,6 +24,8 @@ def index():
 
 @app.route("/novo")
 def novo():
+    if "usuario_logado" not in session or session["usuario_logado"] == None:
+        return redirect("/login")
     return render_template("novo.html", titulo="Novo Jogo")
 
 
@@ -56,10 +58,10 @@ def login():
 def autenticar():
     if "alohomora" == request.form["senha"]:
         session["usuario_logado"] = request.form["usuario"]
-        flash(session["usuario_logado"] + " logado com sucesso")
+        flash(session["usuario_logado"] + " logado com sucesso!")
         return redirect("/")
     else:
-        flash("Usuário não logado!")
+        flash("Usuário não logado.")
         return redirect("/login")
 
 
@@ -70,4 +72,7 @@ def logout():
     return redirect("/")
 
 
-app.run(host="0.0.0.0", port=4000, debug=True)
+app.run(debug=True)
+
+
+# app.run(host="0.0.0.0", port=4000, debug=True)
